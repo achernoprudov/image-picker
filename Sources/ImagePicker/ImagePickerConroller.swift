@@ -13,16 +13,15 @@ public class ImagePickerController: UINavigationController {
 
     // MARK: - Instance variables
 
-    private let theme: Theme
-    private let selectionHanlder: SelectionHandler
+    private let context: ImagePickerContext
 
     // MARK: - Public
 
     public init(theme: Theme = .default, handler: @escaping SelectionHandler) {
-        self.theme = theme
-        selectionHanlder = handler
+        let context = ImagePickerContext(theme: theme, selectionHanlder: handler)
+        self.context = context
 
-        let albumsController = AlbumsViewController(theme: theme)
+        let albumsController = AlbumsViewController(context: context)
         super.init(rootViewController: albumsController)
     }
 

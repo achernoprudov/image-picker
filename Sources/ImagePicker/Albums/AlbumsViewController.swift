@@ -23,13 +23,13 @@ class AlbumsViewController: UIViewController {
 
     // MARK: - Instance variables
 
-    private let theme: Theme
-    private lazy var datasource = AlbumsDataSource(theme: theme)
+    private let context: ImagePickerContext
+    private lazy var datasource = AlbumsDataSource(theme: context.theme)
 
     // MARK: - Public
 
-    init(theme: Theme) {
-        self.theme = theme
+    init(context: ImagePickerContext) {
+        self.context = context
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -43,10 +43,15 @@ class AlbumsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = theme.color.background
+        view.backgroundColor = context.theme.color.background
     }
 
     // MARK: - Private
+
+    private func showDetails(for album: PHAssetCollection) {
+        let gridController = AssetsGridViewController(context: context, album: album)
+        navigationController?.pushViewController(gridController, animated: true)
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -57,5 +62,6 @@ extension AlbumsViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
+        showDetails(for: datasource.albumsCollection[indexPath.row])
     }
 }

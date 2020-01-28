@@ -1,0 +1,40 @@
+//
+//  AssetsGridViewController.swift
+//  ImagePicker
+//
+//  Created by Andrey Chernoprudov on 28.01.2020.
+//
+
+import Photos
+import UIKit
+
+class AssetsGridViewController: UIViewController {
+    // MARK: - Widgets
+
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
+        return collectionView
+    }()
+
+    // MARK: - Instance variables
+
+    private let context: ImagePickerContext
+    private let album: PHAssetCollection
+
+    // MARK: - Public
+
+    public init(context: ImagePickerContext, album: PHAssetCollection) {
+        self.context = context
+        self.album = album
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Private
+}

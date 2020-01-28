@@ -10,12 +10,12 @@ import UIKit
 
 private let cellId = "albumCell"
 
-class AlbumsDataSource: NSObject, UITableViewDataSource {
+class AlbumsDataSource: NSObject {
     // MARK: - Constants
 
     // MARK: - Instance variables
 
-    private var albumsCollection: PHFetchResult<PHAssetCollection> = PHFetchResult()
+    var albumsCollection: PHFetchResult<PHAssetCollection> = PHFetchResult()
 
     private let imageManager = PHCachingImageManager.default()
 
@@ -33,7 +33,11 @@ class AlbumsDataSource: NSObject, UITableViewDataSource {
             options: nil
         )
     }
+}
 
+// MARK: - UITableViewDataSource
+
+extension AlbumsDataSource: UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return albumsCollection.count
     }

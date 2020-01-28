@@ -28,6 +28,7 @@ public struct Theme {
             navigationBar: .systemGray,
             background: .white,
             foreground: .black,
+            foregroundLight: .systemGray,
             primary: .systemBlue
         )
     )
@@ -52,17 +53,20 @@ public extension Theme {
         public let navigationBar: UIColor
         public let background: UIColor
         public let foreground: UIColor
+        public let foregroundLight: UIColor
         public let primary: UIColor
 
         public init(
             navigationBar: UIColor,
             background: UIColor,
             foreground: UIColor,
+            foregroundLight: UIColor,
             primary: UIColor
         ) {
             self.navigationBar = navigationBar
             self.background = background
             self.foreground = foreground
+            self.foregroundLight = foregroundLight
             self.primary = primary
         }
     }
