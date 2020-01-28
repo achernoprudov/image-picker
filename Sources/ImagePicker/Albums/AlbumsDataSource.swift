@@ -38,12 +38,14 @@ class AlbumsDataSource: NSObject, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId)
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: cellId)
+        let cell = tableView.dequeueReusableCell(withIdentifier: AlbumTableCell.cellId, for: indexPath)
+        guard let albumCell = cell as? AlbumTableCell else {
+            return cell
         }
+
         let album = albumsCollection[indexPath.row]
-        cell.textLabel?.attributedText = NSAttributedString(
+
+        albumCell.albumTitle.attributedText = NSAttributedString(
             string: album.localizedTitle ?? "",
             attributes: [
                 .font: UIFont.systemFont(ofSize: 18),
@@ -61,8 +63,7 @@ class AlbumsDataSource: NSObject, UITableViewDataSource {
             options.isNetworkAccessAllowed = true
 
             imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: imageContentMode, options: options) { image, _ in
-                guard let image = image else { return }
-                cell.imageView?.image = image
+                albumCell.albumImageView.image = image
             }
         }
 

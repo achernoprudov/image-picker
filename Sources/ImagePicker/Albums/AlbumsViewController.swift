@@ -13,8 +13,11 @@ class AlbumsViewController: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: UIScreen.main.bounds)
+
+        tableView.register(AlbumTableCell.self, forCellReuseIdentifier: AlbumTableCell.cellId)
         tableView.delegate = self
         tableView.dataSource = datasource
+        tableView.rowHeight = UITableView.automaticDimension
 
         return tableView
     }()
