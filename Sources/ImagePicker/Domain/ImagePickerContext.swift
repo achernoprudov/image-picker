@@ -14,6 +14,7 @@ class ImagePickerContext {
     // MARK: - Instance variables
 
     let theme: Theme
+    let options = Options()
 
     private let selectionHanlder: SelectionHandler
 

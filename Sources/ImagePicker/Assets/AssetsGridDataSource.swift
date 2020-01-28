@@ -9,48 +9,70 @@ import Photos
 import UIKit
 
 class AssetsGridDataSource: NSObject {
-    // MARK: - Aliases
+    // MARK: - Static
+
+    static let videoCellId = "videoCollectionViewCell"
+    static let assetCellId = "assetCollectionViewCell"
+
+    static func registerCellIdentifiersForCollectionView(_ collectionView: UICollectionView?) {
+        collectionView?.register(AssetCollectionViewCell.self, forCellWithReuseIdentifier: assetCellId)
+        collectionView?.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: videoCellId)
+    }
 
     // MARK: - Instance variables
 
-    private static var fetchOptions: PHFetchOptions {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [
-            NSSortDescriptor(key: "creationDate", ascending: false),
-        ]
+    private lazy var durationFormatter: DateComponentsFormatter = {
+        let durationFormatter = DateComponentsFormatter()
+        durationFormatter.unitsStyle = .positional
+        durationFormatter.zeroFormattingBehavior = [.pad]
+        durationFormatter.allowedUnits = [.minute, .second]
+        return durationFormatter
+    }()
 
-        let rawMediaTypes: [PHAssetMediaType] = [.image, .video]
-        let predicate = NSPredicate(format: "mediaType IN %@", rawMediaTypes)
-        fetchOptions.predicate = predicate
-        return fetchOptions
-    }
+    private lazy var scale: CGFloat = UIScreen.main.scale
 
     private let imageManager = PHCachingImageManager.default()
     private let album: PHAssetCollection
 
-    let imagePickerContext: ImagePickerContext
+    let context: ImagePickerContext
     var fetchResult: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
 
     // MARK: - Public
 
-    init(imagePickerContext: ImagePickerContext, album: PHAssetCollection) {
-        self.imagePickerContext = imagePickerContext
+    init(context: ImagePickerContext, album: PHAssetCollection) {
+        self.context = context
         self.album = album
         super.init()
     }
 
-    func registerCell(for _: UICollectionView) {}
-
     // MARK: - Private
 
     private func loadAssets() {
-        DispatchQueue.global(qos: .userInteractive).async { [album] in
-            let fetchResult = PHAsset.fetchAssets(in: album, options: AssetsGridDataSource.fetchOptions)
+        DispatchQueue.global(qos: .userInteractive).async { [album, context] in
+            let fetchResult = PHAsset.fetchAssets(in: album, options: context.options.fetchOptions)
             DispatchQueue.main.async { [weak self] in
                 self?.fetchResult = fetchResult
 //                self?.collectionView.reloadData()
             }
         }
+    }
+
+    private func loadImage(for asset: PHAsset, in cell: AssetCollectionViewCell) {
+        // Cancel any pending image requests
+        if cell.tag != 0 {
+            imageManager.cancelImageRequest(PHImageRequestID(cell.tag))
+        }
+
+        let imageTag = imageManager.requestImage(
+            for: asset,
+            targetSize: cell.bounds.size,
+            contentMode: .aspectFill,
+            options: context.options.imageOptions
+        ) { image, _ in
+            cell.imageView.image = image
+        }
+
+        cell.tag = Int(imageTag)
     }
 }
 
@@ -68,15 +90,27 @@ extension AssetsGridDataSource: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: AssetCollectionViewCell.cellId,
-            for: indexPath
-        )
+        let asset = fetchResult[indexPath.row]
+        let animationsWasEnabled = UIView.areAnimationsEnabled
+        let cell: AssetCollectionViewCell
 
-        guard let assetCell = cell as? AssetCollectionViewCell else {
-            return cell
+        UIView.setAnimationsEnabled(false)
+        if asset.mediaType == .video {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: Self.videoCellId, for: indexPath) as! VideoCollectionViewCell
+            let videoCell = cell as! VideoCollectionViewCell
+            videoCell.durationLabel.text = durationFormatter.string(from: asset.duration)
+        } else {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: Self.assetCellId, for: indexPath) as! AssetCollectionViewCell
         }
+        UIView.setAnimationsEnabled(animationsWasEnabled)
 
-        return assetCell
+        cell.theme = context.theme
+
+        loadImage(for: asset, in: cell)
+
+        cell.isAccessibilityElement = true
+        cell.accessibilityTraits = UIAccessibilityTraits.button
+
+        return cell
     }
 }

@@ -23,8 +23,6 @@
 import UIKit
 
 class AssetCollectionViewCell: UICollectionViewCell {
-    static let cellId = "assetCollectionViewCell"
-
     // MARK: - Instance variables
 
     var theme: Theme! {

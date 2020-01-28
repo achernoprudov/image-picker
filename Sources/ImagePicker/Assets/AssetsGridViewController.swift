@@ -26,7 +26,7 @@ class AssetsGridViewController: UIViewController {
     // MARK: - Public
 
     public init(context: ImagePickerContext, album: PHAssetCollection) {
-        dataSource = AssetsGridDataSource(imagePickerContext: context, album: album)
+        dataSource = AssetsGridDataSource(context: context, album: album)
         super.init(nibName: nil, bundle: nil)
     }
 

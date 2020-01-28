@@ -23,8 +23,12 @@
 import UIKit
 
 class VideoCollectionViewCell: AssetCollectionViewCell {
+    // MARK: - Instance variables
+
     let gradientView = GradientView(frame: .zero)
     let durationLabel = UILabel(frame: .zero)
+
+    // MARK: - Public
 
     override init(frame: CGRect) {
         super.init(frame: frame)
