@@ -7,25 +7,21 @@ import Photos
 import UIKit
 
 class AlbumsViewController: UIViewController {
-    // MARK: - Constants
-
-    private let cellId = "albumCell"
-
     // MARK: - Aliases
 
     // MARK: - Widgets
 
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: UIScreen.main.bounds)
         tableView.delegate = self
-        tableView.dataSource = self
+        tableView.dataSource = datasource
 
         return tableView
     }()
 
-    // MARK: - Instance variables
+    private let datasource = AlbumsDataSource()
 
-    private var albumsCollection: PHFetchResult<PHAssetCollection> = PHFetchResult()
+    // MARK: - Instance variables
 
     // MARK: - Public
 
@@ -35,31 +31,11 @@ class AlbumsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        albumsCollection = PHAssetCollection.fetchAssetCollections(
-            with: .album,
-            subtype: .any,
-            options: nil
-        )
     }
 
     // MARK: - Private
 }
 
-extension AlbumsViewController: UITableViewDataSource {
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return albumsCollection.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: cellId)
-        }
-        let album = albumsCollection[indexPath.row]
-        cell.textLabel?.text = album.localizedTitle
-
-        return cell
-    }
-}
+// MARK: - UITableViewDelegate
 
 extension AlbumsViewController: UITableViewDelegate {}
