@@ -19,11 +19,12 @@ class AlbumsDataSource: NSObject, UITableViewDataSource {
 
     private let imageManager = PHCachingImageManager.default()
 
+    private let theme: Theme
+
     // MARK: - Public
 
-    // MARK: - Private
-
-    override init() {
+    init(theme: Theme) {
+        self.theme = theme
         super.init()
 
         albumsCollection = PHAssetCollection.fetchAssetCollections(
@@ -48,8 +49,8 @@ class AlbumsDataSource: NSObject, UITableViewDataSource {
         albumCell.albumTitle.attributedText = NSAttributedString(
             string: album.localizedTitle ?? "",
             attributes: [
-                .font: UIFont.systemFont(ofSize: 18),
-                .foregroundColor: UIColor.black,
+                .font: theme.font.body,
+                .foregroundColor: theme.color.foreground,
             ]
         )
 
