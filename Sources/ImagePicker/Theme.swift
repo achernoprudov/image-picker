@@ -29,7 +29,9 @@ public struct Theme {
             background: .white,
             foreground: .black,
             foregroundLight: .systemGray,
-            primary: .systemBlue
+            selectionFill: .systemBlue,
+            selectionStroke: .white,
+            selectionShadow: .black
         )
     )
 }
@@ -54,20 +56,29 @@ public extension Theme {
         public let background: UIColor
         public let foreground: UIColor
         public let foregroundLight: UIColor
-        public let primary: UIColor
+        /// What color to fill the circle with
+        public let selectionFill: UIColor
+        /// Color for the actual checkmark
+        public let selectionStroke: UIColor
+        /// Shadow color for the circle
+        public let selectionShadow: UIColor
 
         public init(
             navigationBar: UIColor,
             background: UIColor,
             foreground: UIColor,
             foregroundLight: UIColor,
-            primary: UIColor
+            selectionFill: UIColor,
+            selectionStroke: UIColor,
+            selectionShadow: UIColor
         ) {
             self.navigationBar = navigationBar
             self.background = background
             self.foreground = foreground
             self.foregroundLight = foregroundLight
-            self.primary = primary
+            self.selectionFill = selectionFill
+            self.selectionStroke = selectionStroke
+            self.selectionShadow = selectionShadow
         }
     }
 }

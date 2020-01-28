@@ -21,14 +21,12 @@ class AssetsGridViewController: UIViewController {
 
     // MARK: - Instance variables
 
-    private let context: ImagePickerContext
-    private let album: PHAssetCollection
+    private let dataSource: AssetsGridDataSource
 
     // MARK: - Public
 
     public init(context: ImagePickerContext, album: PHAssetCollection) {
-        self.context = context
-        self.album = album
+        dataSource = AssetsGridDataSource(imagePickerContext: context, album: album)
         super.init(nibName: nil, bundle: nil)
     }
 
