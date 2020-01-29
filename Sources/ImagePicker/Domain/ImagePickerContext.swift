@@ -7,25 +7,17 @@
 
 /// Shared context for photo selection process
 class ImagePickerContext {
-    // MARK: - Aliases
-
-    typealias SelectionHandler = ImagePickerController.SelectionHandler
-
     // MARK: - Instance variables
 
     let theme: Theme
     let options = Options()
 
-    private let selectionHanlder: SelectionHandler
-
     // MARK: - Public
 
     init(
-        theme: Theme,
-        selectionHanlder: @escaping SelectionHandler
+        theme: Theme
     ) {
         self.theme = theme
-        self.selectionHanlder = selectionHanlder
     }
 
     // MARK: - Private

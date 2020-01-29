@@ -8,8 +8,6 @@
 import Photos
 import UIKit
 
-private let cellId = "albumCell"
-
 class AlbumsDataSource: NSObject {
     // MARK: - Constants
 
