@@ -12,8 +12,7 @@ class DoneBarButtonView: UIBarButtonItem {
 
     private lazy var badge: UILabel = {
         let view = UILabel(frame: .zero)
-        view.textColor = .white
-        view.backgroundColor = tintColor
+//        view.backgroundColor = tintColor
         return view
     }()
 

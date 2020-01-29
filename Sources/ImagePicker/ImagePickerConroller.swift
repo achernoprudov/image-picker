@@ -13,12 +13,6 @@ public class ImagePickerController: UINavigationController {
 
     // MARK: - Widgets
 
-    private lazy var doneButton = UIBarButtonItem(
-        barButtonSystemItem: .done,
-        target: self,
-        action: #selector(onDoneTap)
-    )
-
     // MARK: - Instance variables
 
     private let context: ImagePickerContext
@@ -51,16 +45,14 @@ public class ImagePickerController: UINavigationController {
         setupToolbar()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupToolbar()
-    }
-
     // MARK: - Private
 
     private func setupToolbar() {
         isToolbarHidden = false
+        toolbarItems = [
+            CancelBarButtonView(presenter: presenter),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            DoneBarButtonView(presenter: presenter),
+        ]
     }
-
-    @objc private func onDoneTap() {}
 }

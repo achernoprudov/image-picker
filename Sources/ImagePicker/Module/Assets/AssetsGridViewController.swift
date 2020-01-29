@@ -89,11 +89,7 @@ class AssetsGridViewController: UIViewController {
     // MARK: - Private
 
     private func updateToolbar() {
-        toolbarItems = [
-            CancelBarButtonView(presenter: presenter),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            DoneBarButtonView(presenter: presenter),
-        ]
+        toolbarItems = navigationController?.toolbarItems
     }
 
     private func updateFlowLayout() {

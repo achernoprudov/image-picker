@@ -49,11 +49,17 @@ class AlbumsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = context.theme.color.background
 
-        toolbarItems = [
-            CancelBarButtonView(presenter: presenter),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            DoneBarButtonView(presenter: presenter),
-        ]
+        toolbarItems = navigationController?.toolbarItems
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        toolbarItems = navigationController?.toolbarItems
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        toolbarItems = []
     }
 
     // MARK: - Private
