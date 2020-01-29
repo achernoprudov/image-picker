@@ -20,9 +20,9 @@ class Options {
             NSSortDescriptor(key: "creationDate", ascending: false),
         ]
 
-        let rawMediaTypes: [PHAssetMediaType] = [.image, .video]
-        let predicate = NSPredicate(format: "mediaType IN %@", rawMediaTypes)
-        fetchOptions.predicate = predicate
+//        let rawMediaTypes: [PHAssetMediaType] = [.image, .video]
+//        let predicate = NSPredicate(format: "mediaType IN %@", rawMediaTypes)
+//        fetchOptions.predicate = predicate
         return fetchOptions
     }
 }

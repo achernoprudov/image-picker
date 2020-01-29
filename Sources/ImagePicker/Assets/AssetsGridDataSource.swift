@@ -9,6 +9,10 @@ import Photos
 import UIKit
 
 class AssetsGridDataSource: NSObject {
+    // MARK: - Typealias
+
+    typealias ReloadCallback = () -> Void
+
     // MARK: - Static
 
     static let videoCellId = "videoCollectionViewCell"
@@ -37,6 +41,8 @@ class AssetsGridDataSource: NSObject {
     let context: ImagePickerContext
     var fetchResult: PHFetchResult<PHAsset> = PHFetchResult<PHAsset>()
 
+    var reloadCallback: ReloadCallback?
+
     // MARK: - Public
 
     init(context: ImagePickerContext, album: PHAssetCollection) {
@@ -45,17 +51,17 @@ class AssetsGridDataSource: NSObject {
         super.init()
     }
 
-    // MARK: - Private
-
-    private func loadAssets() {
+    func loadAssets() {
         DispatchQueue.global(qos: .userInteractive).async { [album, context] in
             let fetchResult = PHAsset.fetchAssets(in: album, options: context.options.fetchOptions)
             DispatchQueue.main.async { [weak self] in
                 self?.fetchResult = fetchResult
-//                self?.collectionView.reloadData()
+                self?.reloadCallback?()
             }
         }
     }
+
+    // MARK: - Private
 
     private func loadImage(for asset: PHAsset, in cell: AssetCollectionViewCell) {
         // Cancel any pending image requests

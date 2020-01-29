@@ -16,6 +16,7 @@ class AlbumsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = datasource
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
         tableView.allowsMultipleSelection = false
 
         return tableView
@@ -24,13 +25,16 @@ class AlbumsViewController: UIViewController {
     // MARK: - Instance variables
 
     private let context: ImagePickerContext
+    private let presenter: ImagePickerPresetnerProtocol
     private lazy var datasource = AlbumsDataSource(theme: context.theme)
 
     // MARK: - Public
 
-    init(context: ImagePickerContext) {
+    init(context: ImagePickerContext, presenter: ImagePickerPresetnerProtocol) {
         self.context = context
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
+        title = "Albums"
     }
 
     required init?(coder _: NSCoder) {
@@ -49,7 +53,11 @@ class AlbumsViewController: UIViewController {
     // MARK: - Private
 
     private func showDetails(for album: PHAssetCollection) {
-        let gridController = AssetsGridViewController(context: context, album: album)
+        let gridController = AssetsGridViewController(
+            context: context,
+            album: album,
+            presenter: presenter
+        )
         navigationController?.pushViewController(gridController, animated: true)
     }
 }

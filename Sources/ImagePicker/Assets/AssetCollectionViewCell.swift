@@ -29,14 +29,14 @@ class AssetCollectionViewCell: UICollectionViewCell {
         didSet { checkmarkView.theme = theme }
     }
 
-    override var isSelected: Bool {
+    var isAssetSelected: Bool = false {
         didSet {
-            guard oldValue != isSelected else { return }
+            guard oldValue != isAssetSelected else { return }
 
             if UIView.areAnimationsEnabled {
                 UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
                     // Set alpha for views
-                    self.updateAlpha(self.isSelected)
+                    self.updateAlpha(self.isAssetSelected)
 
                     // Scale all views down a little
                     self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
@@ -47,7 +47,7 @@ class AssetCollectionViewCell: UICollectionViewCell {
                     }, completion: nil)
                 })
             } else {
-                updateAlpha(isSelected)
+                updateAlpha(isAssetSelected)
             }
         }
     }
@@ -90,7 +90,7 @@ class AssetCollectionViewCell: UICollectionViewCell {
             checkmarkView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
         ])
 
-        updateAlpha(isSelected)
+        updateAlpha(isAssetSelected)
     }
 
     required init?(coder _: NSCoder) {
