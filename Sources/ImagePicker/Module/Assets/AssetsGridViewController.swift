@@ -89,12 +89,10 @@ class AssetsGridViewController: UIViewController {
     // MARK: - Private
 
     private func updateToolbar() {
-        let doneButton = DoneBarButtonView(presenter: presenter) // CGRect(x: 0, y: 0, width: 100, height: 40))
-
         toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil),
+            CancelBarButtonView(presenter: presenter),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(customView: doneButton),
+            DoneBarButtonView(presenter: presenter),
         ]
     }
 

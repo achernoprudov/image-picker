@@ -46,8 +46,11 @@ class AlbumTableCell: UITableViewCell {
         addSubview(albumImageView)
         addSubview(albumTitle)
 
+        let imageViewHeightConstraint = albumImageView.heightAnchor.constraint(equalToConstant: 84)
+        imageViewHeightConstraint.priority = UILayoutPriority.defaultHigh
+
         NSLayoutConstraint.activate([
-            albumImageView.heightAnchor.constraint(equalToConstant: 84),
+            imageViewHeightConstraint,
             albumImageView.widthAnchor.constraint(equalToConstant: 84),
 
             albumImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),

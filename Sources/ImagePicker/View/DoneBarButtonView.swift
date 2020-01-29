@@ -1,5 +1,5 @@
 //
-//  DoneButtonView.swift
+//  DoneBarButtonView.swift
 //  ImagePicker
 //
 //  Created by Andrey Chernoprudov on 29.01.2020.
@@ -7,22 +7,24 @@
 
 import UIKit
 
-class DoneBarButtonView: UIButton {
+class DoneBarButtonView: UIBarButtonItem {
     // MARK: - Widgets
 
     private lazy var badge: UILabel = {
         let view = UILabel(frame: .zero)
-        view.text = "3"
         view.textColor = .white
         view.backgroundColor = tintColor
         return view
     }()
 
-    private lazy var label: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "Done"
-        label.textColor = tintColor
-        return label
+    private lazy var button: UIButton = {
+        let button = UIButton(type: .system)
+        let bundle = Bundle(for: UIButton.self)
+        let doneTitle = bundle.localizedString(forKey: "Done", value: nil, table: nil)
+        for state: UIControl.State in [.normal, .highlighted, .disabled, .selected, .focused, .application, .reserved] {
+            button.setTitle(doneTitle, for: state)
+        }
+        return button
     }()
 
     // MARK: - Instance variables
@@ -37,9 +39,15 @@ class DoneBarButtonView: UIButton {
     // MARK: - Public
 
     init(presenter: ImagePickerPresetnerProtocol) {
-        super.init(frame: .zero)
-        buildView()
+        super.init()
+
+        let stackView = UIStackView(arrangedSubviews: [badge, button])
+        stackView.spacing = 2
+        stackView.axis = .horizontal
+        customView = stackView
         observeCountChange()
+        button.addTarget(presenter, action: #selector(ImagePickerPresetnerProtocol.complete), for: .touchUpInside)
+
         count = presenter.selected.count
     }
 
@@ -52,20 +60,6 @@ class DoneBarButtonView: UIButton {
     }
 
     // MARK: - Private
-
-    private func buildView() {
-        let stackView = UIStackView(arrangedSubviews: [badge, label])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        addSubview(stackView)
-
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
-    }
 
     private func observeCountChange() {
         NotificationCenter.default.addObserver(

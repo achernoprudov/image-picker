@@ -48,12 +48,11 @@ class AlbumsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = context.theme.color.background
-        let doneButton = DoneBarButtonView(presenter: presenter)
 
         toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil),
+            CancelBarButtonView(presenter: presenter),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(customView: doneButton),
+            DoneBarButtonView(presenter: presenter),
         ]
     }
 
