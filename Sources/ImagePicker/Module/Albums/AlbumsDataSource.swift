@@ -27,7 +27,7 @@ class AlbumsDataSource: NSObject {
 
         albumsCollection = PHAssetCollection.fetchAssetCollections(
             with: .album,
-            subtype: .any,
+            subtype: .albumRegular,
             options: nil
         )
     }

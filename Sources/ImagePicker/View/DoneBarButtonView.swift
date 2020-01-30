@@ -26,15 +26,6 @@ class DoneBarButtonView: UIBarButtonItem {
         return button
     }()
 
-    // MARK: - Instance variables
-
-    var count: Int = 0 {
-        didSet {
-            isEnabled = count > 0
-            badge.text = count > 0 ? count.description : ""
-        }
-    }
-
     // MARK: - Public
 
     init(presenter: ImagePickerPresetnerProtocol) {
@@ -47,7 +38,7 @@ class DoneBarButtonView: UIBarButtonItem {
         observeCountChange()
         button.addTarget(presenter, action: #selector(ImagePickerPresetnerProtocol.complete), for: .touchUpInside)
 
-        count = presenter.selected.count
+        updateState(with: presenter.selected.count)
     }
 
     deinit {
@@ -70,6 +61,12 @@ class DoneBarButtonView: UIBarButtonItem {
     }
 
     @objc private func recieved(notification: Notification) {
-        count = Notifications.extractCount(from: notification) ?? 0
+        let count = Notifications.extractCount(from: notification) ?? 0
+        updateState(with: count)
+    }
+
+    private func updateState(with count: Int) {
+        button.isEnabled = count > 0
+        badge.text = count > 0 ? count.description : ""
     }
 }

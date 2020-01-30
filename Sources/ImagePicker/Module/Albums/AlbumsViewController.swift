@@ -14,7 +14,7 @@ class AlbumsViewController: UIViewController {
 
         tableView.register(AlbumTableCell.self, forCellReuseIdentifier: AlbumTableCell.cellId)
         tableView.delegate = self
-        tableView.dataSource = datasource
+        tableView.dataSource = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.allowsMultipleSelection = false
@@ -26,7 +26,9 @@ class AlbumsViewController: UIViewController {
 
     private let context: ImagePickerContext
     private let presenter: ImagePickerPresetnerProtocol
-    private lazy var datasource = AlbumsDataSource(theme: context.theme)
+    private let imageManager = PHCachingImageManager.default()
+
+    private var albums: [PHAssetCollection] = []
 
     // MARK: - Public
 
@@ -50,19 +52,40 @@ class AlbumsViewController: UIViewController {
         view.backgroundColor = context.theme.color.background
 
         toolbarItems = navigationController?.toolbarItems
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        toolbarItems = navigationController?.toolbarItems
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        toolbarItems = []
+        loadAlbums()
     }
 
     // MARK: - Private
+
+    private func loadAlbums() {
+        func addAll(_ result: PHFetchResult<PHAssetCollection>) {
+            for index in 0 ..< result.count {
+                let album = result[index]
+
+                let fetchOptions = PHFetchOptions()
+                fetchOptions.fetchLimit = 1
+
+                if PHAsset.fetchAssets(in: album, options: fetchOptions).count > 0 {
+                    albums.append(album)
+                }
+            }
+        }
+
+        let recentCollection = PHAssetCollection.fetchAssetCollections(
+            with: .smartAlbum,
+            subtype: .any,
+            options: nil
+        )
+        addAll(recentCollection)
+
+        let albumsCollection = PHAssetCollection.fetchAssetCollections(
+            with: .album,
+            subtype: .any,
+            options: nil
+        )
+        addAll(albumsCollection)
+    }
 
     private func showDetails(for album: PHAssetCollection) {
         let gridController = AssetsGridViewController(
@@ -82,6 +105,47 @@ extension AlbumsViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         tableView.deselectRow(at: indexPath, animated: true)
-        showDetails(for: datasource.albumsCollection[indexPath.row])
+        showDetails(for: albums[indexPath.row])
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension AlbumsViewController: UITableViewDataSource {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        return albums.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: AlbumTableCell.cellId, for: indexPath)
+        guard let albumCell = cell as? AlbumTableCell else {
+            return cell
+        }
+
+        let album = albums[indexPath.row]
+
+        albumCell.albumTitle.attributedText = NSAttributedString(
+            string: album.localizedTitle ?? "",
+            attributes: [
+                .font: context.theme.font.body,
+                .foregroundColor: context.theme.color.foreground,
+            ]
+        )
+
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = 1
+
+        let imageSize = CGSize(width: 84, height: 84)
+        let imageContentMode: PHImageContentMode = .aspectFill
+        if let asset = PHAsset.fetchAssets(in: album, options: fetchOptions).firstObject {
+            let options = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+
+            imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: imageContentMode, options: options) { image, _ in
+                albumCell.albumImageView.image = image
+            }
+        }
+
+        return cell
     }
 }

@@ -87,7 +87,7 @@ class AssetCollectionViewCell: UICollectionViewCell {
             checkmarkView.heightAnchor.constraint(equalToConstant: 25),
             checkmarkView.widthAnchor.constraint(equalToConstant: 25),
             checkmarkView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            checkmarkView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+            checkmarkView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
         ])
 
         updateAlpha(isAssetSelected)
