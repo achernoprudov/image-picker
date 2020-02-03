@@ -31,24 +31,7 @@ class AssetCollectionViewCell: UICollectionViewCell {
 
     var isAssetSelected: Bool = false {
         didSet {
-            guard oldValue != isAssetSelected else { return }
-
-            if UIView.areAnimationsEnabled {
-                UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
-                    // Set alpha for views
-                    self.updateAlpha(self.isAssetSelected)
-
-                    // Scale all views down a little
-                    self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-                }, completion: { (_: Bool) -> Void in
-                    UIView.animate(withDuration: TimeInterval(0.1), animations: { () -> Void in
-                        // And then scale them back upp again to give a bounce effect
-                        self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                    }, completion: nil)
-                })
-            } else {
-                updateAlpha(isAssetSelected)
-            }
+            checkmarkView.isSelected = isAssetSelected
         }
     }
 
@@ -56,7 +39,6 @@ class AssetCollectionViewCell: UICollectionViewCell {
 
     let imageView: UIImageView = UIImageView(frame: .zero)
 
-    private let selectionOverlayView: UIView = UIView(frame: .zero)
     private let checkmarkView: CheckmarkView = CheckmarkView(frame: .zero)
 
     // MARK: - Public
@@ -68,11 +50,8 @@ class AssetCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        selectionOverlayView.backgroundColor = UIColor.lightGray
-        selectionOverlayView.translatesAutoresizingMaskIntoConstraints = false
         checkmarkView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(imageView)
-        contentView.addSubview(selectionOverlayView)
         contentView.addSubview(checkmarkView)
 
         // Add constraints
@@ -81,17 +60,13 @@ class AssetCollectionViewCell: UICollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            selectionOverlayView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            selectionOverlayView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            selectionOverlayView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            selectionOverlayView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             checkmarkView.heightAnchor.constraint(equalToConstant: 25),
             checkmarkView.widthAnchor.constraint(equalToConstant: 25),
             checkmarkView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             checkmarkView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
         ])
 
-        updateAlpha(isAssetSelected)
+        checkmarkView.isSelected = isAssetSelected
     }
 
     required init?(coder _: NSCoder) {
@@ -104,14 +79,4 @@ class AssetCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - Private
-
-    private func updateAlpha(_ selected: Bool) {
-        if selected {
-            checkmarkView.alpha = 1.0
-            selectionOverlayView.alpha = 0.3
-        } else {
-            checkmarkView.alpha = 0.0
-            selectionOverlayView.alpha = 0.0
-        }
-    }
 }
