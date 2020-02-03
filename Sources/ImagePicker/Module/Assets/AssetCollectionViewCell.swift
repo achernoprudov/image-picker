@@ -55,6 +55,7 @@ class AssetCollectionViewCell: UICollectionViewCell {
     // MARK: - Widgets
 
     let imageView: UIImageView = UIImageView(frame: .zero)
+
     private let selectionOverlayView: UIView = UIView(frame: .zero)
     private let checkmarkView: CheckmarkView = CheckmarkView(frame: .zero)
 

@@ -28,6 +28,12 @@ class CheckmarkView: UIView {
 
     var theme: Theme!
 
+    var isSelected: Bool = false {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -54,27 +60,48 @@ class CheckmarkView: UIView {
         let checkmarkFrame = bounds
 
         //// Subframes
-        let group = CGRect(x: checkmarkFrame.minX + 3, y: checkmarkFrame.minY + 3, width: checkmarkFrame.width - 6, height: checkmarkFrame.height - 6)
+        let group = CGRect(
+            x: checkmarkFrame.minX + 3,
+            y: checkmarkFrame.minY + 3,
+            width: checkmarkFrame.width - 6,
+            height: checkmarkFrame.height - 6
+        )
 
         //// CheckedOval Drawing
-        let checkedOvalPath = UIBezierPath(ovalIn: CGRect(x: group.minX + floor(group.width * 0.0 + 0.5), y: group.minY + floor(group.height * 0.0 + 0.5), width: floor(group.width * 1.0 + 0.5) - floor(group.width * 0.0 + 0.5), height: floor(group.height * 1.0 + 0.5) - floor(group.height * 0.0 + 0.5)))
-        context?.saveGState()
-        context?.setShadow(offset: shadow2Offset, blur: shadow2BlurRadius, color: theme.color.selectionShadow.cgColor)
-        theme.color.selectionFill.setFill()
-        checkedOvalPath.fill()
-        context?.restoreGState()
+        let ovalRect = CGRect(
+            x: group.minX + floor(group.width * 0.0 + 0.5),
+            y: group.minY + floor(group.height * 0.0 + 0.5),
+            width: floor(group.width * 1.0 + 0.5) - floor(group.width * 0.0 + 0.5),
+            height: floor(group.height * 1.0 + 0.5) - floor(group.height * 0.0 + 0.5)
+        )
+        let checkedOvalPath = UIBezierPath(ovalIn: ovalRect)
+
+        if isSelected {
+            context?.saveGState()
+
+            context?.setShadow(
+                offset: shadow2Offset,
+                blur: shadow2BlurRadius,
+                color: theme.color.selectionShadow.cgColor
+            )
+            theme.color.selectionFill.setFill()
+            checkedOvalPath.fill()
+            context?.restoreGState()
+        }
 
         theme.color.selectionStroke.setStroke()
         checkedOvalPath.lineWidth = 1
         checkedOvalPath.stroke()
 
-        //// Check mark
-        context?.setStrokeColor(theme.color.selectionStroke.cgColor)
+        if isSelected {
+            //// Check mark
+            context?.setStrokeColor(theme.color.selectionStroke.cgColor)
 
-        let checkPath = UIBezierPath()
-        checkPath.move(to: CGPoint(x: 7, y: 12.5))
-        checkPath.addLine(to: CGPoint(x: 11, y: 16))
-        checkPath.addLine(to: CGPoint(x: 17.5, y: 9.5))
-        checkPath.stroke()
+            let checkPath = UIBezierPath()
+            checkPath.move(to: CGPoint(x: 7, y: 12.5))
+            checkPath.addLine(to: CGPoint(x: 11, y: 16))
+            checkPath.addLine(to: CGPoint(x: 17.5, y: 9.5))
+            checkPath.stroke()
+        }
     }
 }
