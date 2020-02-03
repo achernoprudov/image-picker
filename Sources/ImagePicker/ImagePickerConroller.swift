@@ -34,6 +34,9 @@ public class ImagePickerController: UINavigationController {
         super.init(rootViewController: albumsController)
 
         presenter.viewController = self
+        if #available(iOS 13.0, *) {
+            isModalInPresentation = true
+        }
     }
 
     required init?(coder _: NSCoder) {
