@@ -8,16 +8,36 @@
 import UIKit
 
 class DoneBarButtonView: UIBarButtonItem {
+    // MARK: - Instance variables
+
+    private let theme: Theme
+
     // MARK: - Widgets
 
-    private lazy var badge: UILabel = {
-        let view = UILabel(frame: .zero)
-//        view.backgroundColor = tintColor
+    private lazy var countLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.backgroundColor = .clear
+        label.font = UIFont.systemFont(ofSize: 15)
+
+        return label
+    }()
+
+    private lazy var countBadge: UIView = {
+        let frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        let view = UIView(frame: frame)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = theme.color.accent
+        view.layer.cornerRadius = 10
+
         return view
     }()
 
     private lazy var button: UIButton = {
         let button = UIButton(type: .system)
+        button.tintColor = theme.color.accent
         let bundle = Bundle(for: UIButton.self)
         let doneTitle = bundle.localizedString(forKey: "Done", value: nil, table: nil)
         for state: UIControl.State in [.normal, .highlighted, .disabled, .selected, .focused, .application, .reserved] {
@@ -28,10 +48,23 @@ class DoneBarButtonView: UIBarButtonItem {
 
     // MARK: - Public
 
-    init(presenter: ImagePickerPresetnerProtocol) {
+    init(presenter: ImagePickerPresetnerProtocol, theme: Theme) {
+        self.theme = theme
         super.init()
 
-        let stackView = UIStackView(arrangedSubviews: [badge, button])
+        countBadge.addSubview(countLabel)
+
+        NSLayoutConstraint.activate([
+            countBadge.leadingAnchor.constraint(equalTo: countLabel.leadingAnchor),
+            countBadge.trailingAnchor.constraint(equalTo: countLabel.trailingAnchor),
+
+            countBadge.heightAnchor.constraint(equalToConstant: 20),
+            countBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+
+            countLabel.centerYAnchor.constraint(equalTo: countBadge.centerYAnchor),
+        ])
+
+        let stackView = UIStackView(arrangedSubviews: [countBadge, button])
         stackView.spacing = 2
         stackView.axis = .horizontal
         customView = stackView
@@ -67,6 +100,7 @@ class DoneBarButtonView: UIBarButtonItem {
 
     private func updateState(with count: Int) {
         button.isEnabled = count > 0
-        badge.text = count > 0 ? count.description : ""
+        countBadge.isHidden = count == 0
+        countLabel.text = count > 99 ? "99+" : count.description
     }
 }

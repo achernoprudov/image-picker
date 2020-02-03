@@ -29,7 +29,7 @@ public struct Theme {
             background: .white,
             foreground: .black,
             foregroundLight: .systemGray,
-            selectionFill: .systemBlue,
+            accent: .systemBlue,
             selectionStroke: .white,
             selectionShadow: .black
         )
@@ -56,8 +56,8 @@ public extension Theme {
         public let background: UIColor
         public let foreground: UIColor
         public let foregroundLight: UIColor
-        /// What color to fill the circle with
-        public let selectionFill: UIColor
+        /// What color to fill the circle with, buttons tint color
+        public let accent: UIColor
         /// Color for the actual checkmark
         public let selectionStroke: UIColor
         /// Shadow color for the circle
@@ -68,7 +68,7 @@ public extension Theme {
             background: UIColor,
             foreground: UIColor,
             foregroundLight: UIColor,
-            selectionFill: UIColor,
+            accent: UIColor,
             selectionStroke: UIColor,
             selectionShadow: UIColor
         ) {
@@ -76,7 +76,7 @@ public extension Theme {
             self.background = background
             self.foreground = foreground
             self.foregroundLight = foregroundLight
-            self.selectionFill = selectionFill
+            self.accent = accent
             self.selectionStroke = selectionStroke
             self.selectionShadow = selectionShadow
         }

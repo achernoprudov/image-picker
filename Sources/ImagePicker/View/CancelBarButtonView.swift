@@ -10,8 +10,13 @@ import UIKit
 class CancelBarButtonView: UIBarButtonItem {
     // MARK: - Instance variables
 
+    private let theme: Theme
+
+    // MARK: - Widgets
+
     private lazy var button: UIButton = {
         let button = UIButton(type: .system)
+        button.tintColor = theme.color.accent
         let bundle = Bundle(for: UIButton.self)
         let doneTitle = bundle.localizedString(forKey: "Close", value: nil, table: nil)
         for state: UIControl.State in [.normal, .highlighted, .disabled, .selected, .focused, .application, .reserved] {
@@ -22,7 +27,8 @@ class CancelBarButtonView: UIBarButtonItem {
 
     // MARK: - Public
 
-    init(presenter: ImagePickerPresetnerProtocol) {
+    init(presenter: ImagePickerPresetnerProtocol, theme: Theme) {
+        self.theme = theme
         super.init()
         customView = button
         button.addTarget(presenter, action: #selector(ImagePickerPresetnerProtocol.close), for: .touchUpInside)

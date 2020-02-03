@@ -84,7 +84,7 @@ class CheckmarkView: UIView {
                 blur: shadow2BlurRadius,
                 color: theme.color.selectionShadow.cgColor
             )
-            theme.color.selectionFill.setFill()
+            theme.color.accent.setFill()
             checkedOvalPath.fill()
             context?.restoreGState()
         }

@@ -50,9 +50,9 @@ public class ImagePickerController: UINavigationController {
     private func setupToolbar() {
         isToolbarHidden = false
         toolbarItems = [
-            CancelBarButtonView(presenter: presenter),
+            CancelBarButtonView(presenter: presenter, theme: context.theme),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            DoneBarButtonView(presenter: presenter),
+            DoneBarButtonView(presenter: presenter, theme: context.theme),
         ]
     }
 }
