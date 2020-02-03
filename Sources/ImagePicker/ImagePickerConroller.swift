@@ -20,7 +20,11 @@ public class ImagePickerController: UINavigationController {
 
     // MARK: - Public
 
-    public init(theme: Theme = .default, handler: @escaping SelectionHandler) {
+    public init(
+        theme: Theme = .default,
+        albumsTitle: String = "Albums",
+        handler: @escaping SelectionHandler
+    ) {
         let context = ImagePickerContext(theme: theme)
         let presenter = ImagePickerPresetner(selectionHandler: handler)
 
@@ -31,6 +35,7 @@ public class ImagePickerController: UINavigationController {
             context: context,
             presenter: presenter
         )
+        albumsController.title = albumsTitle
         super.init(rootViewController: albumsController)
 
         presenter.viewController = self

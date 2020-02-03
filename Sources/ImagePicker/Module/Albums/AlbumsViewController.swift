@@ -36,7 +36,6 @@ class AlbumsViewController: UIViewController {
         self.context = context
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
-        title = "Albums"
     }
 
     required init?(coder _: NSCoder) {

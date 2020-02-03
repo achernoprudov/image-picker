@@ -17,11 +17,7 @@ class CancelBarButtonView: UIBarButtonItem {
     private lazy var button: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = theme.color.accent
-        let bundle = Bundle(for: UIButton.self)
-        let doneTitle = bundle.localizedString(forKey: "Close", value: nil, table: nil)
-        for state: UIControl.State in [.normal, .highlighted, .disabled, .selected, .focused, .application, .reserved] {
-            button.setTitle(doneTitle, for: state)
-        }
+        button.setTitle(L10N.close, for: .normal)
         return button
     }()
 

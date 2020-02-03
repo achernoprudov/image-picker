@@ -38,11 +38,7 @@ class DoneBarButtonView: UIBarButtonItem {
     private lazy var button: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = theme.color.accent
-        let bundle = Bundle(for: UIButton.self)
-        let doneTitle = bundle.localizedString(forKey: "Done", value: nil, table: nil)
-        for state: UIControl.State in [.normal, .highlighted, .disabled, .selected, .focused, .application, .reserved] {
-            button.setTitle(doneTitle, for: state)
-        }
+        button.setTitle(L10N.done, for: .normal)
         return button
     }()
 
@@ -65,7 +61,7 @@ class DoneBarButtonView: UIBarButtonItem {
         ])
 
         let stackView = UIStackView(arrangedSubviews: [countBadge, button])
-        stackView.spacing = 2
+        stackView.spacing = 4
         stackView.axis = .horizontal
         customView = stackView
         observeCountChange()

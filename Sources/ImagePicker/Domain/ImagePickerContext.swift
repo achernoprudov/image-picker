@@ -14,9 +14,7 @@ class ImagePickerContext {
 
     // MARK: - Public
 
-    init(
-        theme: Theme
-    ) {
+    init(theme: Theme) {
         self.theme = theme
     }
 
