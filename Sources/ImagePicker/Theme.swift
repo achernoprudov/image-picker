@@ -26,6 +26,7 @@ public struct Theme {
         ),
         color: Theme.Color(
             navigationBar: .systemGray,
+            navigationBarTitle: .black,
             background: .white,
             foreground: .black,
             foregroundLight: .systemGray,
@@ -53,6 +54,7 @@ public extension Theme {
 public extension Theme {
     struct Color {
         public let navigationBar: UIColor
+        public let navigationBarTitle: UIColor
         public let background: UIColor
         public let foreground: UIColor
         public let foregroundLight: UIColor
@@ -65,6 +67,7 @@ public extension Theme {
 
         public init(
             navigationBar: UIColor,
+            navigationBarTitle: UIColor,
             background: UIColor,
             foreground: UIColor,
             foregroundLight: UIColor,
@@ -73,6 +76,7 @@ public extension Theme {
             selectionShadow: UIColor
         ) {
             self.navigationBar = navigationBar
+            self.navigationBarTitle = navigationBarTitle
             self.background = background
             self.foreground = foreground
             self.foregroundLight = foregroundLight

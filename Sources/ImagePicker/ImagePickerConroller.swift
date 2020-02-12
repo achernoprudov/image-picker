@@ -50,6 +50,7 @@ public class ImagePickerController: UINavigationController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        setupAppearance()
         setupToolbar()
     }
 
@@ -61,6 +62,18 @@ public class ImagePickerController: UINavigationController {
             CancelBarButtonView(presenter: presenter, theme: context.theme),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             DoneBarButtonView(presenter: presenter, theme: context.theme),
+        ]
+    }
+
+    private func setupAppearance() {
+        let navigationBarAppearance = UINavigationBar.appearance(
+            whenContainedInInstancesOf: [ImagePickerController.self]
+        )
+        navigationBarAppearance.barStyle = .default
+        navigationBarAppearance.isTranslucent = false
+        navigationBarAppearance.tintColor = context.theme.color.accent
+        navigationBarAppearance.titleTextAttributes = [
+            .font: UIFont.boldSystemFont(ofSize: 17),
         ]
     }
 }
