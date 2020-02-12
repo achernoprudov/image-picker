@@ -39,6 +39,7 @@ class DoneBarButtonView: UIBarButtonItem {
         let button = UIButton(type: .system)
         button.tintColor = theme.color.accent
         button.setTitle(L10N.done, for: .normal)
+        button.titleLabel?.font = theme.font.body
         return button
     }()
 
