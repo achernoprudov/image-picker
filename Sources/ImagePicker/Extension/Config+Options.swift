@@ -1,13 +1,13 @@
 //
-//  Options.swift
+//  Config+Options.swift
 //  ImagePicker
 //
-//  Created by Andrey Chernoprudov on 28.01.2020.
+//  Created by Andrey Chernoprudov on 12.02.2020.
 //
 
 import Photos
 
-class Options {
+extension Config {
     var imageOptions: PHImageRequestOptions {
         let options = PHImageRequestOptions()
         options.isNetworkAccessAllowed = true
@@ -20,15 +20,14 @@ class Options {
             NSSortDescriptor(key: "creationDate", ascending: false),
         ]
 
-        let mediaTypes: [PHAssetMediaType] = [.image, .video]
         let rawMediaTypes = mediaTypes.map { $0.rawValue }
         fetchOptions.predicate = NSPredicate(format: "mediaType IN %@", rawMediaTypes)
         return fetchOptions
     }
 
-    var albumPreviewOptions: PHFetchOptions = {
+    var albumPreviewOptions: PHFetchOptions {
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = 1
         return fetchOptions
-    }()
+    }
 }

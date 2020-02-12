@@ -10,12 +10,13 @@ class ImagePickerContext {
     // MARK: - Instance variables
 
     let theme: Theme
-    let options = Options()
+    let config: Config
 
     // MARK: - Public
 
-    init(theme: Theme) {
+    init(theme: Theme, config: Config) {
         self.theme = theme
+        self.config = config
     }
 
     // MARK: - Private

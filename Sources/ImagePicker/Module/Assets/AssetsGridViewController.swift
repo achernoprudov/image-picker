@@ -107,7 +107,7 @@ class AssetsGridViewController: UIViewController {
         // fetching many assets could last for long time.
         // so move it from main thread
         DispatchQueue.global(qos: .userInteractive).async { [album, context] in
-            let fetchResult = PHAsset.fetchAssets(in: album, options: context.options.fetchOptions)
+            let fetchResult = PHAsset.fetchAssets(in: album, options: context.config.fetchOptions)
             DispatchQueue.main.async { [weak self] in
                 self?.fetchResult = fetchResult
                 self?.collectionView.reloadData()
@@ -127,7 +127,7 @@ class AssetsGridViewController: UIViewController {
             for: asset,
             targetSize: cell.bounds.size,
             contentMode: .aspectFill,
-            options: context.options.imageOptions
+            options: context.config.imageOptions
         ) { image, _ in
             cell.imageView.image = image
         }
