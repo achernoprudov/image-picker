@@ -29,6 +29,13 @@ class AlbumTableCell: UITableViewCell {
         return label
     }()
 
+    private(set) lazy var albumCount: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        return label
+    }()
+
     // MARK: - Public
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -40,11 +47,19 @@ class AlbumTableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        albumImageView.image = nil
+        albumTitle.text = nil
+        albumCount.text = nil
+    }
+
     // MARK: - Private
 
     private func buildView() {
         addSubview(albumImageView)
         addSubview(albumTitle)
+        addSubview(albumCount)
 
         let imageViewHeightConstraint = albumImageView.heightAnchor.constraint(equalToConstant: 84)
         imageViewHeightConstraint.priority = UILayoutPriority.defaultHigh
@@ -58,9 +73,12 @@ class AlbumTableCell: UITableViewCell {
 
             albumImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             albumImageView.trailingAnchor.constraint(equalTo: albumTitle.leadingAnchor, constant: -16),
+            albumImageView.trailingAnchor.constraint(equalTo: albumCount.leadingAnchor, constant: -16),
             albumTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
+            albumCount.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
 
-            albumTitle.centerYAnchor.constraint(equalTo: albumImageView.centerYAnchor),
+            albumTitle.bottomAnchor.constraint(equalTo: albumImageView.centerYAnchor),
+            albumCount.topAnchor.constraint(equalTo: albumImageView.centerYAnchor),
         ])
     }
 }

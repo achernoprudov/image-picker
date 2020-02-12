@@ -28,6 +28,9 @@ extension Config {
     var albumPreviewOptions: PHFetchOptions {
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = 1
+
+        let rawMediaTypes = mediaTypes.map { $0.rawValue }
+        fetchOptions.predicate = NSPredicate(format: "mediaType IN %@", rawMediaTypes)
         return fetchOptions
     }
 }

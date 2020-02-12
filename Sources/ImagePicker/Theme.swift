@@ -22,7 +22,8 @@ public struct Theme {
 
     public static let `default` = Theme(
         font: Theme.Font(
-            body: UIFont.preferredFont(forTextStyle: .body)
+            body: UIFont.preferredFont(forTextStyle: .body),
+            subheadline: UIFont.preferredFont(forTextStyle: .subheadline)
         ),
         color: Theme.Color(
             navigationBar: .systemGray,
@@ -42,9 +43,11 @@ public struct Theme {
 public extension Theme {
     struct Font {
         public let body: UIFont
+        public let subheadline: UIFont
 
-        public init(body: UIFont) {
+        public init(body: UIFont, subheadline: UIFont) {
             self.body = body
+            self.subheadline = subheadline
         }
     }
 }

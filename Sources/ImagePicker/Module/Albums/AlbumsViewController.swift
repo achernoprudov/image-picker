@@ -131,17 +131,31 @@ extension AlbumsViewController: UITableViewDataSource {
             ]
         )
 
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 1
+        // Fetch preview for album
 
         let imageSize = CGSize(width: 84, height: 84)
         let imageContentMode: PHImageContentMode = .aspectFill
-        if let asset = PHAsset.fetchAssets(in: album, options: fetchOptions).firstObject {
+        if let asset = PHAsset.fetchAssets(in: album, options: context.config.albumPreviewOptions).firstObject {
             let options = PHImageRequestOptions()
             options.isNetworkAccessAllowed = true
 
             imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: imageContentMode, options: options) { image, _ in
                 albumCell.albumImageView.image = image
+            }
+        }
+
+        // Fetch album count
+
+        DispatchQueue.global(qos: .userInteractive).async { [album, context] in
+            let fetchResult = PHAsset.fetchAssets(in: album, options: context.config.fetchOptions)
+            DispatchQueue.main.async { [weak albumCell] in
+                albumCell?.albumCount.attributedText = NSAttributedString(
+                    string: fetchResult.count.description,
+                    attributes: [
+                        .font: context.theme.font.subheadline,
+                        .foregroundColor: context.theme.color.foregroundLight,
+                    ]
+                )
             }
         }
 
