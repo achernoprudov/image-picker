@@ -71,12 +71,12 @@ class AlbumsViewController: UIViewController {
             }
         }
 
-        let recentCollection = PHAssetCollection.fetchAssetCollections(
+        let smartCollections = PHAssetCollection.fetchAssetCollections(
             with: .smartAlbum,
             subtype: .any,
             options: nil
         )
-        addAll(recentCollection)
+        addAll(smartCollections)
 
         let albumsCollection = PHAssetCollection.fetchAssetCollections(
             with: .album,

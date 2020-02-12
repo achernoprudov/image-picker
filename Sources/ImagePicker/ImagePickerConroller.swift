@@ -54,6 +54,11 @@ public class ImagePickerController: UINavigationController {
         setupToolbar()
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        pushRecentsAlbum()
+    }
+
     // MARK: - Private
 
     private func setupToolbar() {
@@ -75,5 +80,22 @@ public class ImagePickerController: UINavigationController {
         navigationBarAppearance.titleTextAttributes = [
             .font: UIFont.boldSystemFont(ofSize: 17),
         ]
+    }
+
+    private func pushRecentsAlbum() {
+        let recentCollection = PHAssetCollection.fetchAssetCollections(
+            with: .smartAlbum,
+            subtype: .smartAlbumUserLibrary,
+            options: nil
+        )
+        guard let album = recentCollection.firstObject else {
+            return
+        }
+        let detailsController = AssetsGridViewController(
+            context: context,
+            album: album,
+            presenter: presenter
+        )
+        pushViewController(detailsController, animated: false)
     }
 }
