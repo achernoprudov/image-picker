@@ -18,6 +18,7 @@ class AlbumsViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.allowsMultipleSelection = false
+        tableView.separatorStyle = .none
 
         return tableView
     }()

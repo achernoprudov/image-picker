@@ -52,8 +52,8 @@ class DoneBarButtonView: UIBarButtonItem {
         countBadge.addSubview(countLabel)
 
         NSLayoutConstraint.activate([
-            countBadge.leadingAnchor.constraint(equalTo: countLabel.leadingAnchor),
-            countBadge.trailingAnchor.constraint(equalTo: countLabel.trailingAnchor),
+            countBadge.leadingAnchor.constraint(equalTo: countLabel.leadingAnchor, constant: 3),
+            countBadge.trailingAnchor.constraint(equalTo: countLabel.trailingAnchor, constant: -3),
 
             countBadge.heightAnchor.constraint(equalToConstant: 20),
             countBadge.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),

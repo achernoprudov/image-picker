@@ -57,6 +57,8 @@ class AlbumTableCell: UITableViewCell {
     // MARK: - Private
 
     private func buildView() {
+        accessoryType = .disclosureIndicator
+
         addSubview(albumImageView)
         addSubview(albumTitle)
         addSubview(albumCount)
@@ -77,8 +79,8 @@ class AlbumTableCell: UITableViewCell {
             albumTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
             albumCount.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
 
-            albumTitle.bottomAnchor.constraint(equalTo: albumImageView.centerYAnchor),
-            albumCount.topAnchor.constraint(equalTo: albumImageView.centerYAnchor),
+            albumTitle.bottomAnchor.constraint(equalTo: albumImageView.centerYAnchor, constant: -4),
+            albumCount.topAnchor.constraint(equalTo: albumImageView.centerYAnchor, constant: 4),
         ])
     }
 }
