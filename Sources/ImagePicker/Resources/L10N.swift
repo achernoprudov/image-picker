@@ -13,8 +13,8 @@ enum L10N {
         return bundle.localizedString(forKey: "Done", value: nil, table: nil)
     }
 
-    static var close: String {
+    static var cancel: String {
         let bundle = Bundle(for: UIButton.self)
-        return bundle.localizedString(forKey: "Close", value: nil, table: nil)
+        return bundle.localizedString(forKey: "Cancel", value: nil, table: nil)
     }
 }

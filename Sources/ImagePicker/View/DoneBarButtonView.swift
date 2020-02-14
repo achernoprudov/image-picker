@@ -98,6 +98,6 @@ class DoneBarButtonView: UIBarButtonItem {
     private func updateState(with count: Int) {
         button.isEnabled = count > 0
         countBadge.isHidden = count == 0
-        countLabel.text = count > 99 ? "99+" : count.description
+        countLabel.text = count.description
     }
 }

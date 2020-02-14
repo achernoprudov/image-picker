@@ -17,7 +17,7 @@ class CancelBarButtonView: UIBarButtonItem {
     private lazy var button: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = theme.color.accent
-        button.setTitle(L10N.close, for: .normal)
+        button.setTitle(L10N.cancel, for: .normal)
         button.titleLabel?.font = theme.font.body
         return button
     }()

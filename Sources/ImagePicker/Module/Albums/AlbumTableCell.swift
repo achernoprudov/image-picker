@@ -25,7 +25,8 @@ class AlbumTableCell: UITableViewCell {
     private(set) lazy var albumTitle: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
@@ -76,8 +77,8 @@ class AlbumTableCell: UITableViewCell {
             albumImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             albumImageView.trailingAnchor.constraint(equalTo: albumTitle.leadingAnchor, constant: -16),
             albumImageView.trailingAnchor.constraint(equalTo: albumCount.leadingAnchor, constant: -16),
-            albumTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
-            albumCount.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
+            albumTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -50),
+            albumCount.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -50),
 
             albumTitle.bottomAnchor.constraint(equalTo: albumImageView.centerYAnchor, constant: -4),
             albumCount.topAnchor.constraint(equalTo: albumImageView.centerYAnchor, constant: 4),
